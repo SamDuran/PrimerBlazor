@@ -15,10 +15,10 @@ namespace Blazor.Migrations
                     ProductoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Descripcion = table.Column<string>(type: "TEXT", maxLength: 35, nullable: false),
-                    Existencia = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Costo = table.Column<decimal>(type: "TEXT", nullable: false),
-                    ValorInventario = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Precio = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Existencia = table.Column<double>(type: "REAL", nullable: false),
+                    Costo = table.Column<double>(type: "REAL", nullable: false),
+                    ValorInventario = table.Column<double>(type: "REAL", nullable: false),
+                    Precio = table.Column<double>(type: "REAL", nullable: false),
                     Ganancia = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

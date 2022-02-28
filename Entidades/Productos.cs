@@ -16,16 +16,16 @@ namespace Samuel_Duran_Ap1_p1_.Entidades
 
         [Required(ErrorMessage = "Campo obligatorio. Se debe indicar la existencia.")]
         [Range(0.1, int.MaxValue, ErrorMessage = "Se debe indicar la existencia del producto dentro de los rangos {1}/{2}.")]
-        public decimal Existencia { get; set; }
+        public double Existencia { get; set; }
 
         [Required(ErrorMessage = "El Campo \"Costo\"está vacío. Por favor indique un costo.")]
         [Range(1, int.MaxValue, ErrorMessage = "El costo debe estar dentro del rango permitido {1}/{2}.")]
-        public decimal Costo { get; set; }
+        public double Costo { get; set; }
 
-        public decimal ValorInventario { get; set; }
+        public double ValorInventario { get; set; }
         [Required(ErrorMessage = "Campo obligatorio. Se debe indicar el precio.")]
         [Range(1, int.MaxValue, ErrorMessage = "Se debe indicar el precio del producto dentro de los rangos {1}/{2}.")]
-        public decimal Precio { get; set; }
+        public double Precio { get; set; }
         
         public int Ganancia { get; set; }
 

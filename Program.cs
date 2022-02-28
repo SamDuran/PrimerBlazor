@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components.Web;
-/* using Blazor.Data; */
 using Blazored.Toast;
 using Samuel_Duran_Ap1_p1_.DAL;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
 builder.Services.AddBlazoredToast();
-/* builder.Services.AddDbContext<Contexto>(op => op.UseSqlite(builder.Configuration.GetConnectionString("ConStr"))); */
+builder.Services.AddDbContext<Contexto>(op => op.UseSqlite(builder.Configuration.GetConnectionString("ConStr")));
 
 var app = builder.Build();
 

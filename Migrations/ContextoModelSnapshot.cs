@@ -47,25 +47,25 @@ namespace Blazor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Costo")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Costo")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasMaxLength(35)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Existencia")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Existencia")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("Ganancia")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Precio")
+                        .HasColumnType("REAL");
 
-                    b.Property<decimal>("ValorInventario")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("ValorInventario")
+                        .HasColumnType("REAL");
 
                     b.HasKey("ProductoId");
 

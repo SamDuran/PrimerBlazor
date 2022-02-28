@@ -75,7 +75,7 @@ namespace Samuel_Duran_Ap1_p1_.BLL
         }
         private static bool Modificar(Productos producto)
         {
-            bool esta = false;
+            bool paso = false;
             Contexto contexto = new Contexto();
 
             try
@@ -87,7 +87,7 @@ namespace Samuel_Duran_Ap1_p1_.BLL
                     contexto.Entry(anterior).State= EntityState.Added;
                 }
                 contexto.Entry(producto).State = EntityState.Modified;
-                esta = contexto.SaveChanges() > 0;
+                paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
             {
@@ -98,7 +98,7 @@ namespace Samuel_Duran_Ap1_p1_.BLL
                 contexto.Dispose();
             }
 
-            return esta;
+            return paso;
         }
         public static bool Guardar(Productos producto)
         {
