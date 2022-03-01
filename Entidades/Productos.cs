@@ -31,12 +31,7 @@ namespace Samuel_Duran_Ap1_p1_.Entidades
 
         [ForeignKey("ProductoId")]
 
-        public virtual List<ProductosDetalle> ProductosDetalle {get;set;}
-
-        public Productos()
-        {
-            ProductoId=0;
-            ProductosDetalle = new List<ProductosDetalle>();
-        }
+        public virtual List<ProductosDetalle> ProductosDetalle {get;set;}= new List<ProductosDetalle>();
+ 
     }
 }

@@ -8,17 +8,10 @@ public partial class ProductosDetalle
     public decimal Cantidad { get; set; }
     public decimal Precio { get; set; }
 
-    public ProductosDetalle()
+    public ProductosDetalle( string descripcion, decimal cantidad, decimal precio)
     {
-        Id = ProductoId = 0;
-        Cantidad = Precio = 0;
-    }
-    public ProductosDetalle(int id, int productoId, string desc, decimal cant, decimal precio)
-    {
-        Id = id;
-        ProductoId = productoId;
-        Descripcion= desc;
-        Cantidad = cant;
+        Descripcion= descripcion;
+        Cantidad = cantidad;
         Precio = precio;
     }
 }

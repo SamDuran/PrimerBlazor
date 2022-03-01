@@ -1,7 +1,6 @@
-﻿@page "/RegistroProductos"
-@page "/RegistroProductos/{ProductoId:int}"
-@page "/Productos"
-@page "/Productos/{ProductoId:int}"
+﻿@page "/R_Productos"
+@page "/R_Productos/{ProductoId:int}"
+
 @inject IToastService toastService
 
 <EditForm Model="producto" OnValidSubmit="Guardar">
@@ -26,7 +25,7 @@
                                 <ValidationMessage For="@(() => producto.ProductoId)" />
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary input-group-text"
-                                        @onclick="Buscar">🔎Buscar</button>
+                                        @onclick="Buscar"><span class="oi oi-magnifying-glass">Buscar</span></button>
                                 </div>
                             </div>
                         </div>
@@ -99,83 +98,109 @@
                     </div>
                 </div>
 
-            </div> @* BOTONES *@
+            </div>
+
+            @* PRODUCTO DETALLE *@
+            <div class="card align-items-center" style="box-shadow: 8px 8px rgba(0, 0, 0, 0.26);">
+
+                <div class="card-header align-items-center">
+                    <h3>Presentaciones del producto</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="form-group" style="margin: 5px;">
+
+                                <label style="margin: 2px 20px 2px 5px;">Descripción</label>
+                                <label style="margin: 2px 0px 2px 86px;">Cantidad</label>
+                                <label style="margin: 2px 60px 2px 120px;">Precio</label>
+
+                                <div class="input-group">
+                                    <InputText style="margin: 5px;" class="form-control" @bind-Value="Presentacion"
+                                        placeholder="Descripción del detalle" />
+
+                                    <InputNumber style="margin: 5px;" class="form-control" @bind-Value="Cantidad" />
+
+                                    <InputNumber style="margin: 5px;" class="form-control" @bind-Value="Precio" />
+
+                                    <button type="button" style="margin: 5px;" class="btn btn-lg btn-primary"
+                                        @onclick="AgregarDetalle">Agregar Detalle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-light">
+                        <thead class="thead">
+                            <tr class="table">
+                                <th>|Descripción</th>
+                                <th>|Cantidad</th>
+                                <th>|Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in producto.ProductosDetalle)
+                            {
+                                <tr>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.Cantidad</td>
+                                    <td>RD$@item.Precio</td>
+
+                                    <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"  @onclick="@(() => RemoverFila(item))"> Remover</span> </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
             <div class="card-footer">
                 @* Botones *@
                 <div class="form-group text-center" display: inline-block>
                     <button type="button" style="margin: 5px;" class="btn btn-lg btn-primary"
-                        @onclick="Nuevo">☀Nuevo</button>
+                        @onclick="Nuevo">Nuevo</button>
                     <button type="submit" style="margin: 5px;" class="btn btn-lg btn-success"
-                        @onclick="Guardar">➕Guardar</button>
+                        @onclick="Guardar">Guardar</button>
                     <button type="button" style="margin: 5px;" class="btn btn-lg btn-danger"
-                        @onclick="Eliminar">➖Eliminar</button>
+                        @onclick="Eliminar">Eliminar</button>
                 </div>
             </div>
         </div>
 
 
 
-        @* PRODUCTO DETALLE *@
-        <div class="card align-items-center" style="box-shadow: 8px 8px rgba(0, 0, 0, 0.26);">
 
-            <div class="card-header align-items-center">
-                <h3>Detalles de producto</h3>
-            </div>
-
-            <div class="card-body">
-
-                <div class="form-row align-items-center">
-                    <div class="col">
-                        <div class="form-group" style="margin: 5px;">
-
-                            <label style="margin: 2px 20px 2px 5px;">Descripción</label>
-                            <label style="margin: 2px 0px 2px 86px;">Cantidad</label>
-                            <label style="margin: 2px 60px 2px 120px;">Precio</label>
-                            <div class="input-group">
-
-                                <InputText style="margin: 5px;" class="form-control"
-                                    @bind-Value="productoDetalle.Descripcion" placeholder="Descripción del detalle" />
-                                <ValidationMessage For="@(() => productoDetalle.Descripcion)" />
-
-                                <InputNumber style="margin: 5px;" class="form-control"
-                                    @bind-Value="productoDetalle.Cantidad" />
-                                <ValidationMessage For="@(() => productoDetalle.Cantidad)" />
-
-                                <InputNumber style="margin: 5px;" class="form-control"
-                                    @bind-Value="productoDetalle.Precio" />
-                                <ValidationMessage For="@(() => productoDetalle.Precio)" />
-                                <button type="button" style="margin: 5px;" class="btn btn-lg btn-primary"
-                                    @onclick="AgregarDetalle">Agregar Detalle</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </EditForm>
+
 @code {
 
     [Parameter]
     public int ProductoId { get; set; }
+
     public Productos producto { get; set; } = new Productos();
-    public ProductosDetalle productoDetalle { get; set; } = new ProductosDetalle();
+
+    [Inject]
+    public ProductosBLL productosBLL { get; set; }
+
+    public string Presentacion { get; set; }
+    public int Cantidad { get; set; }
+    public decimal Precio { get; set; }
 
     protected override void OnInitialized()
     {
         producto.ProductoId = ProductoId;
         Buscar();
     }
-    public void Nuevo()
-    {
-        producto = new Productos();
-        NuevoDetalle();
-    }
+
     public void Buscar()
     {
         if (this.producto.ProductoId > 0)
         {
-            Productos encontrado = ProductosBLL.Buscar(this.producto.ProductoId);
+            Productos encontrado = productosBLL.Buscar(this.producto.ProductoId);
             if (encontrado != null)
             {
                 this.producto = encontrado;
@@ -187,17 +212,7 @@
             }
         }
     }
-    public void Guardar()
-    {
 
-        producto.Ganancia = (int)(((producto.Precio - producto.Costo) * 100) / producto.Costo);
-        if (ProductosBLL.Guardar(producto))
-        {
-            toastService.ShowInfo("Se guardó exitosamente");
-        }
-        else
-            toastService.ShowError("No se pudo guardar.");
-    }
     public void CostoChanged()
     {
         PrecioOrCostoChanged();
@@ -216,10 +231,38 @@
     {
         producto.Ganancia = (int)((producto.Precio - producto.Costo) / producto.Costo) * 100;
     }
+
+    private void AgregarDetalle()
+    {
+        this.producto.ProductosDetalle.Add(new ProductosDetalle(Presentacion, Cantidad, Precio));
+
+    }
+
+    private void RemoverFila(ProductosDetalle item)
+    {
+        this.producto.ProductosDetalle.Remove(item);
+    }
+    public void Nuevo()
+    {
+        producto = new Productos();
+    }
+
+    public void Guardar()
+    {
+
+        producto.Ganancia = (int)(((producto.Precio - producto.Costo) * 100) / producto.Costo);
+        if (productosBLL.Guardar(producto))
+        {
+            toastService.ShowInfo("Se guardó exitosamente");
+        }
+        else
+            toastService.ShowError("No se pudo guardar.");
+    }
+
     private void Eliminar()
     {
         bool eliminado;
-        eliminado = ProductosBLL.Eliminar(producto.ProductoId);
+        eliminado = productosBLL.Eliminar(producto.ProductoId);
         if (eliminado)
         {
             Nuevo();
@@ -230,21 +273,6 @@
             toastService.ShowError("Eliminación fallida");
         }
     }
-    private void NuevoDetalle()
-    {
-        productoDetalle = new ProductosDetalle();
-    }
-    private void AgregarDetalle()
-    {
-        if (ProductosBLL.Buscar(this.producto.ProductoId) != null)
-        {
-            this.producto.ProductosDetalle.Add(this.productoDetalle);
-            Guardar();
-            NuevoDetalle();
-        }
-        else
-        {
-            toastService.ShowError("Se necesita la referencia de un producto existente para guardar sus detalles.");
-        }
-    }
+
+
 }

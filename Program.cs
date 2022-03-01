@@ -3,15 +3,23 @@ using Blazored.Toast;
 using Samuel_Duran_Ap1_p1_.DAL;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Samuel_Duran_Ap1_p1_.BLL;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddBlazoredToast();
-builder.Services.AddDbContext<Contexto>(op => op.UseSqlite(builder.Configuration.GetConnectionString("ConStr")));
+
+//Aqui inyecto DbContext
+builder.Services.AddDbContext<Contexto>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("ConStr"))
+);
+
+builder.Services.AddTransient<ProductosBLL>();
 
 var app = builder.Build();
 
